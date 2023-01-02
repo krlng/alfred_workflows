@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>krlng.ot</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>3C8520AB-7A7A-4763-9E68-8C6413E47014</key>
+		<array/>
+	</dict>
+	<key>createdby</key>
+	<string>Nico Kreiling</string>
+	<key>description</key>
+	<string></string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Open Thesaurus</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>ot</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Loading</string>
+				<key>script</key>
+				<string>import urllib.parse
+import urllib.request
+import json
+import sys
+
+def get_synonyms(term):
+    api_url = 'http://www.openthesaurus.de/synonyme/search'
+    params = urllib.parse.urlencode({'q': term, 'format': 'application/json'})
+    response = urllib.request.urlopen(api_url + '?' + params)
+    data = json.loads(response.read())
+    synonyms = [o["term"] for o in data["synsets"][0]["terms"]]
+    return synonyms
+
+
+if __name__ == "__main__":
+	alfred_input = sys.argv[1]
+	synonyms = get_synonyms(alfred_input)
+	items = [{"title": k} for k in synonyms]
+	response = json.dumps({"items": items})
+	print(response)</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>OT</string>
+				<key>type</key>
+				<integer>9</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>3C8520AB-7A7A-4763-9E68-8C6413E47014</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>3C8520AB-7A7A-4763-9E68-8C6413E47014</key>
+		<dict>
+			<key>xpos</key>
+			<real>55</real>
+			<key>ypos</key>
+			<real>285</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
+	<key>variablesdontexport</key>
+	<array/>
+	<key>version</key>
+	<string>0.0.1</string>
+	<key>webaddress</key>
+	<string>https://github.com/krlng/alfred_workflows</string>
+</dict>
+</plist>
